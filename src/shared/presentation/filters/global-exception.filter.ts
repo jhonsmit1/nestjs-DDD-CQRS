@@ -21,7 +21,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
             durationMs: req._startTime ? Date.now() - req._startTime : undefined
         };
 
-        // 🟡 VALIDATION ERROR
+        //  VALIDATION ERROR
         if (exception instanceof HttpException) {
             const status = exception.getStatus();
             const response = exception.getResponse() as any;
@@ -36,14 +36,14 @@ export class GlobalExceptionFilter implements ExceptionFilter {
             }
         }
 
-        // 🟡 DOMAIN ERROR
+        //  DOMAIN ERROR
         if (exception instanceof DomainError) {
             this.reporter.domain(exception, context);
 
             return res.status(exception.statusCode).json({ message: 'Invalid argument', });
         }
 
-        // 🔴 ERROR NO CONTROLADO
+        //  ERROR NO CONTROLADO
         this.reporter.unhandled(exception as Error, context);
 
         return res.status(500).json({ message: 'Internal server error' });
